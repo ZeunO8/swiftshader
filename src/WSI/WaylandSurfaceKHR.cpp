@@ -34,7 +34,7 @@ static void wl_registry_handle_global(void *data, struct wl_registry *registry, 
 	struct wl_shm **pshm = (struct wl_shm **)data;
 	if(!strcmp(interface, "wl_shm"))
 	{
-		*pshm = static_cast<struct wl_shm *>(libWaylandClient->wl_registry_bind(registry, name, libWaylandClient->wl_shm_interface, 1));
+		*pshm = static_cast<struct wl_shm *>(wl_registry_bind(registry, name, &wl_shm_interface, 1));
 	}
 }
 
@@ -48,9 +48,9 @@ WaylandSurfaceKHR::WaylandSurfaceKHR(const VkWaylandSurfaceCreateInfoKHR *pCreat
     : display(pCreateInfo->display)
     , surface(pCreateInfo->surface)
 {
-	struct wl_registry *registry = libWaylandClient->wl_display_get_registry(display);
-	libWaylandClient->wl_registry_add_listener(registry, &wl_registry_listener, &shm);
-	libWaylandClient->wl_display_dispatch(display);
+	struct wl_registry *registry = wl_display_get_registry(display);
+	wl_registry_add_listener(registry, &wl_registry_listener, &shm);
+	wl_display_dispatch(display);
 }
 
 void WaylandSurfaceKHR::destroySurface(const VkAllocationCallbacks *pAllocator)
@@ -80,10 +80,10 @@ void WaylandSurfaceKHR::attachImage(PresentImage *image)
 	const VkExtent3D &extent = image->getImage()->getExtent();
 	int stride = image->getImage()->rowPitchBytes(VK_IMAGE_ASPECT_COLOR_BIT, 0);
 	assert(ftruncate(fd, extent.height * stride) == 0);
-	struct wl_shm_pool *pool = libWaylandClient->wl_shm_create_pool(shm, fd, extent.height * stride);
-	wlImage->buffer = libWaylandClient->wl_shm_pool_create_buffer(pool, 0, extent.width, extent.height, stride, WL_SHM_FORMAT_XRGB8888);
+	struct wl_shm_pool *pool = wl_shm_create_pool(shm, fd, extent.height * stride);
+	wlImage->buffer = wl_shm_pool_create_buffer(pool, 0, extent.width, extent.height, stride, WL_SHM_FORMAT_XRGB8888);
 	wlImage->data = static_cast<uint8_t *>(mmap(NULL, extent.height * stride, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0));
-	libWaylandClient->wl_shm_pool_destroy(pool);
+	wl_shm_pool_destroy(pool);
 	close(fd);
 	imageMap[image] = wlImage;
 }
@@ -97,7 +97,7 @@ void WaylandSurfaceKHR::detachImage(PresentImage *image)
 		const VkExtent3D &extent = image->getImage()->getExtent();
 		int stride = image->getImage()->rowPitchBytes(VK_IMAGE_ASPECT_COLOR_BIT, 0);
 		munmap(wlImage->data, extent.height * stride);
-		libWaylandClient->wl_buffer_destroy(wlImage->buffer);
+		wl_buffer_destroy(wlImage->buffer);
 		delete wlImage;
 		imageMap.erase(it);
 	}
@@ -112,11 +112,11 @@ VkResult WaylandSurfaceKHR::present(PresentImage *image)
 		const VkExtent3D &extent = image->getImage()->getExtent();
 		int bufferRowPitch = image->getImage()->rowPitchBytes(VK_IMAGE_ASPECT_COLOR_BIT, 0);
 		image->getImage()->copyTo(reinterpret_cast<uint8_t *>(wlImage->data), bufferRowPitch);
-		libWaylandClient->wl_surface_attach(surface, wlImage->buffer, 0, 0);
-		libWaylandClient->wl_surface_damage(surface, 0, 0, extent.width, extent.height);
-		libWaylandClient->wl_surface_commit(surface);
-		libWaylandClient->wl_display_roundtrip(display);
-		libWaylandClient->wl_display_sync(display);
+		wl_surface_attach(surface, wlImage->buffer, 0, 0);
+		wl_surface_damage(surface, 0, 0, extent.width, extent.height);
+		wl_surface_commit(surface);
+		wl_display_roundtrip(display);
+		wl_display_sync(display);
 	}
 
 	return VK_SUCCESS;

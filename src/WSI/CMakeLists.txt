@@ -107,3 +107,7 @@ target_link_libraries(vk_wsi
     PUBLIC
         vk_pipeline
 )
+
+if(LINUX)
+    target_link_libraries(vk_wsi PUBLIC wayland-client)
+endif()
