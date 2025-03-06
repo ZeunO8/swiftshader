@@ -268,7 +268,6 @@ include(FetchContent)
 FetchContent_Declare(glslang 
     GIT_REPOSITORY https://github.com/KhronosGroup/glslang.git
     GIT_TAG 2b2523fb951f63f072cfba514c26f2feea5f4329)
-FetchContent_MakeAvailable(glslang)
 
 if (SWIFTSHADER_BUILD_TESTS)
     InitSubmodule(gtest ${THIRD_PARTY_DIR}/googletest)
@@ -679,6 +678,8 @@ if(NOT MSVC)
     endif()
 endif()
 unset(USE_EXCEPTIONS)
+
+FetchContent_MakeAvailable(glslang)
 
 ###########################################################
 # libbacktrace and boost
