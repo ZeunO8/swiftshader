@@ -263,8 +263,13 @@ if (SWIFTSHADER_BUILD_TESTS OR SWIFTSHADER_BUILD_BENCHMARKS)
     set(BUILD_VULKAN_WRAPPER TRUE)
 endif()
 
+include(FetchContent)
+
 if (BUILD_VULKAN_WRAPPER)
-    InitSubmodule(glslang ${THIRD_PARTY_DIR}/glslang)
+    FetchContent_Declare(glslang 
+        GIT_REPOSITORY https://github.com/KhronosGroup/glslang.git
+        GIT_TAG 2b2523fb951f63f072cfba514c26f2feea5f4329)
+        FetchContent_MakeAvailable(glslang)
 endif()
 
 if (SWIFTSHADER_BUILD_TESTS)
@@ -272,24 +277,40 @@ if (SWIFTSHADER_BUILD_TESTS)
 endif()
 
 if(SWIFTSHADER_BUILD_BENCHMARKS)
-    InitSubmodule(benchmark::benchmark ${THIRD_PARTY_DIR}/benchmark)
+    FetchContent_Declare(benchmark
+        GIT_REPOSITORY https://github.com/google/benchmark.git
+        GIT_TAG dfc8a92abc88a9d630a9f8e01c678fedde4c3090)
+    FetchContent_MakeAvailable(benchmark)
 endif()
 
 if(REACTOR_EMIT_DEBUG_INFO)
-    InitSubmodule(libbacktrace ${THIRD_PARTY_DIR}/libbacktrace/src)
+    FetchContent_Declare(libbacktrace
+        GIT_REPOSITORY https://github.com/google/benchmark.git
+        GIT_TAG dfc8a92abc88a9d630a9f8e01c678fedde4c3090)
 endif()
 
 if(SWIFTSHADER_BUILD_PVR)
-    InitSubmodule(PVRCore ${THIRD_PARTY_DIR}/PowerVR_Examples)
+    FetchContent_Declare(PVRCore
+        GIT_REPOSITORYhttps://github.com/powervr-graphics/Native_SDK.git
+        GIT_TAG 409c9d54fdaffe68565283e38dcbbe6c58535925)
+    FetchContent_MakeAvailable(PVRCore)
 endif()
 
 if(SWIFTSHADER_BUILD_CPPDAP)
-    InitSubmodule(json ${THIRD_PARTY_DIR}/json)
-    InitSubmodule(cppdap ${THIRD_PARTY_DIR}/cppdap)
+    FetchContent_Declare(json 
+        https://github.com/nlohmann/json.git
+        GIT_TAG ed5541440a36bf7dc1a544f9a84fa3e5ae97b71f)
+    FetchContent_MakeAvailable(json )
+    FetchContent_Declare(cppdap 
+        GIT_REPOSITORY https://github.com/google/cppdap.git
+        GIT_TAG 1fd23dda91e01550be1a421de307e6fedb2035a9)
+    FetchContent_MakeAvailable(cppdap )
 endif()
 
 if(${REACTOR_BACKEND} STREQUAL "LLVM-Submodule")
-    InitSubmodule(llvm-submodule ${THIRD_PARTY_DIR}/llvm-project)
+    FetchContent_Declare(llvm-submodule
+        GIT_REPOSITORY https://github.com/llvm/llvm-project.git
+        GIT_TAG fc3b34c50803274b8ba3b8a30df9177b7d29063c)
 endif()
 
 ###########################################################
@@ -665,7 +686,7 @@ unset(USE_EXCEPTIONS)
 # libbacktrace and boost
 ###########################################################
 if(REACTOR_EMIT_DEBUG_INFO)
-    add_subdirectory(${THIRD_PARTY_DIR}/libbacktrace EXCLUDE_FROM_ALL)
+    FetchContent_MakeAvailable(libbacktrace)
     add_subdirectory(${THIRD_PARTY_DIR}/boost EXCLUDE_FROM_ALL)
 endif()
 
