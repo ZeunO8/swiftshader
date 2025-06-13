@@ -33,7 +33,9 @@ set(SPIRV_TOOLS "SPIRV-Tools")
 
 include(GNUInstallDirs)
 
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+if(NOT WIN32)
+  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+endif()
 
 # Require at least C++17
 if(NOT CMAKE_CXX_STANDARD)
