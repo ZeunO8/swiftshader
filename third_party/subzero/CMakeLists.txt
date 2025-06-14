@@ -90,9 +90,11 @@ add_library(subzero STATIC EXCLUDE_FROM_ALL
     ${SUBZERO_SRC_FILES}
 )
 
-set_target_properties(subzero PROPERTIES
-    POSITION_INDEPENDENT_CODE 1
-)
+if(NOT WIN32)
+    set_target_properties(subzero PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+    )
+endif()
 
 target_include_directories(subzero
     PUBLIC

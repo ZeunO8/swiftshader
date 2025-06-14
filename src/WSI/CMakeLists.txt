@@ -81,10 +81,12 @@ add_library(vk_wsi EXCLUDE_FROM_ALL
     ${WSI_SRC_FILES}
 )
 
-set_target_properties(vk_wsi PROPERTIES
-    POSITION_INDEPENDENT_CODE 1
-    FOLDER "SwiftShader VK"
-)
+if(NOT WIN32)
+    set_target_properties(vk_wsi PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+        FOLDER "SwiftShader VK"
+    )
+endif()
 
 target_include_directories(vk_wsi
     PUBLIC

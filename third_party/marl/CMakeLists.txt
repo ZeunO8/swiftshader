@@ -287,11 +287,13 @@ if(NOT MSVC)
     target_compile_options(marl PRIVATE "-fvisibility=hidden")
 endif()
 
-set_target_properties(marl PROPERTIES
-    POSITION_INDEPENDENT_CODE 1
-    VERSION ${MARL_VERSION}
-    SOVERSION "${MARL_VERSION_MAJOR}"
-)
+if(NOT WIN32)
+    set_target_properties(marl PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+        VERSION ${MARL_VERSION}
+        SOVERSION "${MARL_VERSION_MAJOR}"
+    )
+endif()
 
 marl_set_target_options(marl)
 

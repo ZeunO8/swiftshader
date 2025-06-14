@@ -79,10 +79,12 @@ add_library(ReactorSubzero STATIC EXCLUDE_FROM_ALL
     ${SUBZERO_SRC_FILES}
 )
 
-set_target_properties(ReactorSubzero PROPERTIES
-    POSITION_INDEPENDENT_CODE 1
-    FOLDER "Reactor"
-)
+if(NOT WIN32)
+    set_target_properties(ReactorSubzero PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+        FOLDER "Reactor"
+    )
+endif()
 
 target_include_directories(ReactorSubzero
     PUBLIC
@@ -115,10 +117,12 @@ add_library(ReactorLLVM STATIC EXCLUDE_FROM_ALL
     ${LLVM_SRC_FILES}
 )
 
-set_target_properties(ReactorLLVM PROPERTIES
-    POSITION_INDEPENDENT_CODE 1
-    FOLDER "Reactor"
-)
+if(NOT WIN32)
+    set_target_properties(ReactorLLVM PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+        FOLDER "Reactor"
+    )
+endif()
 
 target_include_directories(ReactorLLVM
     PUBLIC
@@ -150,10 +154,12 @@ add_library(ReactorLLVMSubmodule STATIC EXCLUDE_FROM_ALL
     ${LLVM_SRC_FILES}
 )
 
-set_target_properties(ReactorLLVMSubmodule PROPERTIES
-    POSITION_INDEPENDENT_CODE 1
-    FOLDER "Reactor"
-)
+if(NOT WIN32)
+    set_target_properties(ReactorLLVMSubmodule PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+        FOLDER "Reactor"
+    )
+endif()
 
 target_include_directories(ReactorLLVMSubmodule
     PUBLIC

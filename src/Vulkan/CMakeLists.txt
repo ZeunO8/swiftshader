@@ -158,12 +158,14 @@ add_library(vk_swiftshader SHARED
     ${VULKAN_SRC_FILES}
 )
 
-set_target_properties(vk_swiftshader PROPERTIES
-    POSITION_INDEPENDENT_CODE 1
-    FOLDER "SwiftShader VK"
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
-)
+if(NOT WIN32)
+    set_target_properties(vk_swiftshader PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+        FOLDER "SwiftShader VK"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+    )
+endif()
 
 target_include_directories(vk_swiftshader
     PRIVATE

@@ -37,9 +37,11 @@ add_library(astc-encoder STATIC EXCLUDE_FROM_ALL
     ${ASTC_ENCODER_SRC_FILES}
 )
 
-set_target_properties(astc-encoder PROPERTIES
-    POSITION_INDEPENDENT_CODE 1
-)
+if(NOT WIN32)
+    set_target_properties(astc-encoder PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+    )
+endif()
 
 target_include_directories(astc-encoder
     PUBLIC

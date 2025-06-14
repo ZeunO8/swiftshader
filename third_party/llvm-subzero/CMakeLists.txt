@@ -226,9 +226,11 @@ add_library(llvm-subzero STATIC EXCLUDE_FROM_ALL
   ${LLVM_SUBZERO_SRC_FILES}
 )
 
-set_target_properties(llvm-subzero PROPERTIES
-    POSITION_INDEPENDENT_CODE 1
-)
+if(NOT WIN32)
+    set_target_properties(llvm-subzero PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+    )
+endif()
 
 target_include_directories(llvm-subzero
     PUBLIC

@@ -55,10 +55,12 @@ add_library(vk_device EXCLUDE_FROM_ALL
     ${DEVICE_SRC_FILES}
 )
 
-set_target_properties(vk_device PROPERTIES
-    POSITION_INDEPENDENT_CODE 1
-    FOLDER "SwiftShader VK"
-)
+if(NOT WIN32)
+    set_target_properties(vk_device PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+        FOLDER "SwiftShader VK"
+    )
+endif()
 
 target_include_directories(vk_device
     PUBLIC

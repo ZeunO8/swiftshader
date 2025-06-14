@@ -1668,10 +1668,12 @@ if(SWIFTSHADER_EMIT_COVERAGE)
         ${LLVM_DIR}/lib/ProfileData/Coverage/CoverageMappingReader.cpp
         ${LLVM_DIR}/lib/Support/Compression.cpp
     )
-    set_target_properties(llvm-with-cov PROPERTIES
-        POSITION_INDEPENDENT_CODE 1
-        FOLDER "LLVM"
-    )
+    if(NOT WIN32)
+        set_target_properties(llvm-with-cov PROPERTIES
+            POSITION_INDEPENDENT_CODE 1
+            FOLDER "LLVM"
+        )
+    endif()
 
     target_include_directories(llvm-with-cov
         PUBLIC
