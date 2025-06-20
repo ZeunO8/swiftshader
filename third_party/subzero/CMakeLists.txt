@@ -60,7 +60,7 @@ elseif(ARCH STREQUAL "x86")
         src/IceTargetLoweringX8632.cpp
     )
     set(SUBZERO_TARGET_CPU X8632)
-elseif(ARCH STREQUAL "arm")
+elseif(ARCH STREQUAL "arm" OR ARCH STREQUAL "aarch64")
     list(APPEND SUBZERO_SRC_FILES
         src/IceAssemblerARM32.cpp
         src/IceInstARM32.cpp
