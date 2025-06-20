@@ -131,6 +131,10 @@ if(SWIFTSHADER_ENABLE_VULKAN_DEBUGGER)
     )
 endif()
 
+if(ANDROID)
+    list(APPEND VULKAN_SRC_FILES VkDeviceMemoryExternalAndroid.cpp)
+endif()
+
 set(VULKAN_COMPILE_OPTIONS "")
 if(FUCHSIA)
     # At the moment, the Fuchsia build uses unofficial VK_STRUCTURE_TYPE_XX
@@ -183,6 +187,10 @@ target_compile_definitions(vk_swiftshader
         "VK_EXPORT="
         $<$<CONFIG:Debug>:"DEBUGGER_WAIT_DIALOG">
 )
+
+if(ANDROID)
+    target_compile_definitions(vk_swiftshader PRIVATE SWIFTSHADER_EXTERNAL_MEMORY_ANDROID_HARDWARE_BUFFER)
+endif()
 
 target_link_options(vk_swiftshader
     PRIVATE

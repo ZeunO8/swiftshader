@@ -336,6 +336,7 @@ VkResult AHardwareBufferExternalMemory::unlockAndroidHardwareBuffer()
 	return VK_SUCCESS;
 }
 
+#if SWIFTSHADER_EXTERNAL_MEMORY_ANDROID_HARDWARE_BUFFER
 VkResult AHardwareBufferExternalMemory::exportAndroidHardwareBuffer(AHardwareBuffer **pAhb) const
 {
 	if(getFlagBit() != VK_EXTERNAL_MEMORY_HANDLE_TYPE_ANDROID_HARDWARE_BUFFER_BIT_ANDROID)
@@ -350,6 +351,7 @@ VkResult AHardwareBufferExternalMemory::exportAndroidHardwareBuffer(AHardwareBuf
 	*pAhb = ahb;
 	return VK_SUCCESS;
 }
+#endif
 
 VkFormat AHardwareBufferExternalMemory::GetVkFormatFromAHBFormat(uint32_t ahbFormat)
 {
@@ -422,6 +424,7 @@ VkResult AHardwareBufferExternalMemory::GetAndroidHardwareBufferFormatProperties
 	return VK_SUCCESS;
 }
 
+#if SWIFTSHADER_EXTERNAL_MEMORY_ANDROID_HARDWARE_BUFFER
 VkResult AHardwareBufferExternalMemory::GetAndroidHardwareBufferProperties(VkDevice &device, const AHardwareBuffer *buffer, VkAndroidHardwareBufferPropertiesANDROID *pProperties)
 {
 	VkResult result = VK_SUCCESS;
@@ -476,6 +479,7 @@ VkResult AHardwareBufferExternalMemory::GetAndroidHardwareBufferProperties(VkDev
 
 	return result;
 }
+#endif
 
 int AHardwareBufferExternalMemory::externalImageRowPitchBytes(VkImageAspectFlagBits aspect) const
 {

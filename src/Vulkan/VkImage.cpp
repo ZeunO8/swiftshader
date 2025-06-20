@@ -331,7 +331,7 @@ VkResult Image::prepareForExternalUseANDROID() const
 	ahbDesc.stride = static_cast<uint32_t>(backingMemory.nativeBufferInfo.stride);
 
 	AHardwareBuffer *ahb = nullptr;
-	if(AHardwareBuffer_createFromHandle(&ahbDesc, backingMemory.nativeBufferInfo.handle, AHARDWAREBUFFER_CREATE_FROM_HANDLE_METHOD_CLONE, &ahb) != 0)
+	if(true)//AHardwareBuffer_createFromHandle(&ahbDesc, backingMemory.nativeBufferInfo.handle, AHARDWAREBUFFER_CREATE_FROM_HANDLE_METHOD_CLONE, &ahb) != 0)
 	{
 		return VK_ERROR_OUT_OF_DATE_KHR;
 	}

@@ -5001,7 +5001,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkAcquireImageANDROID(VkDevice device, VkImage im
 
 	if(nativeFenceFd >= 0)
 	{
-		sync_wait(nativeFenceFd, -1);
+		//sync_wait(nativeFenceFd, -1);
 		close(nativeFenceFd);
 	}
 
